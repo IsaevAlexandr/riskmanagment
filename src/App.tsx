@@ -6,7 +6,8 @@ import { Theme } from "./components/Theme";
 import { Drawer } from "./components/Drawer";
 import { ThemeProvider, CssBaseline, Box } from "@mui/material";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { MonitoringPage } from "./components/MonitoringPage";
+import { RiskPage } from "./components/RiskPage/RiskPage";
+import { EventsPage } from "./components/EventsPage/EventsPage";
 
 function App() {
   return (
@@ -16,16 +17,10 @@ function App() {
         <AppBar />
         <Box display="flex">
           <Drawer />
-          <Box component="main">
+          <Box component="main" sx={{ flexGrow: 1 }}>
             <Switch>
-              <Route exact path="/" component={MonitoringPage} />
-
-              <Route exact path="/risktree">
-                <div>risktree</div>
-              </Route>
-              <Route exact path="/events">
-                <div>events</div>
-              </Route>
+              <Route exact path="/" component={RiskPage} />
+              <Route exact path="/events" component={EventsPage} />
               <Redirect from="*" to="/" />
             </Switch>
           </Box>

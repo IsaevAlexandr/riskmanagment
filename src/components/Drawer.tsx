@@ -36,12 +36,12 @@ export const Drawer = () => {
             <ListItemText primary={"Мониторинг рисков"} />
           </ListItemButton>
 
-          <ListItemButton component={Link} to="/risktree" selected={param === "risktree"}>
+          {/* <ListItemButton component={Link} to="/risktree" selected={param === "risktree"}>
             <ListItemIcon>
               <AccountTreeIcon />
             </ListItemIcon>
             <ListItemText primary={"Дерево рисков"} />
-          </ListItemButton>
+          </ListItemButton> */}
 
           <ListItemButton component={Link} to="/events" selected={param === "events"}>
             <ListItemIcon>
