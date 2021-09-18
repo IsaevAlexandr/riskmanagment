@@ -4,8 +4,11 @@ import { Table } from "../Table";
 import { data, Risk } from "./data";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
+import { RiskModalForm } from "./RiskModalForm";
+import { getData, setData } from "../../utils/dataManagment";
 
-const getColumns = (): Column<Risk>[] => {
+
+export const getColumns = (): Column<Risk>[] => {
   return [
     { Header: "N", accessor: (x) => x.id },
     { Header: "Название", accessor: (x) => x.name },
@@ -35,12 +38,34 @@ const getColumns = (): Column<Risk>[] => {
 
 export const RiskPage = () => {
   const columns = React.useMemo(() => getColumns(), []);
+  const [open, setOpen] = React.useState(false);
+  const dataFromStorage = getData<Risk[]>("risk", []);
+
+  const [riskState, setRiskState] = React.useState<Risk[]>([
+    ...data,
+    ...dataFromStorage,
+  ]);
+
+  const handleSaveRisk = (v: Risk) => {
+    const newRisk = {
+      ...v,
+      id: String(1 + Number(riskState[riskState.length - 1].id)),
+    };
+
+    const dataFromStorage = getData<Risk[]>("risk", []);
+
+    const da = [...dataFromStorage, newRisk];
+
+    setData("risk", da);
+
+    setRiskState([...riskState, newRisk]);
+  };
 
   return (
     <Container>
       <Grid container spacing={2} sx={{ mt: "80px" }}>
         <Grid item>
-          <Button variant="contained">
+          <Button variant="contained" onClick={() => setOpen(true)}>
             <AddIcon />
             Новый риск
           </Button>
@@ -48,10 +73,16 @@ export const RiskPage = () => {
 
         <Grid item xs={12} sx={{ overflow: "scroll" }}>
           <Paper>
-            <Table<Risk> data={data} columns={columns} />
+            <Table<Risk> data={riskState} columns={columns} />
           </Paper>
         </Grid>
       </Grid>
+
+      <RiskModalForm
+        visible={open}
+        onSave={handleSaveRisk}
+        onClose={() => setOpen(false)}
+      />
     </Container>
   );
 };
