@@ -1,0 +1,19 @@
+risks.csv - таблица рисков
+	id - уникальный идентификатор
+	name - наименование
+	reason - причина
+	responsible_person - ответственный
+	business_process - бизнесс-процесс
+	recommendations - рекоммендации
+	strategy - стратегия
+	probability - вероятность наступления
+	elimination_time - нормативное время устранения риска
+	expenses - стоимость отработки риска
+	
+events.csv - таблица событий
+	id - уникальный идентификатор
+	description - описание
+	date - дата наступления
+	time - время наступления
+	
+

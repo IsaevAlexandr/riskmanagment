@@ -1,0 +1,1 @@
+export type RiskFactor = "a" | "b" | "c" | "d" | "e";

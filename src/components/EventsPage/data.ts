@@ -1,5 +1,5 @@
 export interface Event {
-  id: string;
+  id: number;
   event: string;
   description: string;
   risk: string;
@@ -19,7 +19,7 @@ export interface Event {
 
 export const data: Event[] = [
   {
-    id: "1",
+    id: 1,
     event: "Ввод резервной линии",
     description: "Закупка и установка резервной линии связи",
     risk: "Обрыв линии связи",

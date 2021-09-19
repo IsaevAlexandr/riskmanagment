@@ -1,18 +1,31 @@
-import { Container, Paper, Grid, Button } from "@mui/material";
-import { Column } from "react-table";
+import { Grid, Button } from "@mui/material";
+import { Cell, Column } from "react-table";
 import { Table } from "../Table";
 import { data, Risk } from "./data";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import { RiskModalForm } from "./RiskModalForm";
 import { getData, setData } from "../../utils/dataManagment";
+import { RiskMatrix } from "../RiskMatrix/RiskMatrix";
+import { calculateCoordsForMatrix } from "./matrixFormua";
+import { ImageModal } from "../ImageModal";
+import { Layout } from "../Layout";
 
-
-export const getColumns = (): Column<Risk>[] => {
+export const getColumns = (
+  onDescClick: (v: string) => void
+): Column<Risk>[] => {
   return [
-    { Header: "N", accessor: (x) => x.id },
+    { Header: "N", accessor: (x) => x.id, width: 50 },
     { Header: "Название", accessor: (x) => x.name },
-    { Header: "Описание", accessor: (x) => x.description },
+    {
+      Header: "Описание",
+      accessor: (x) => x.description,
+      Cell: (v: Cell<Risk, string>) => {
+        return v.value ? (
+          <Button onClick={() => onDescClick(v.value)}>Диаграмма</Button>
+        ) : null;
+      },
+    },
     { Header: "Категория", accessor: (x) => x.category },
     { Header: "Ключевой фактор", accessor: (x) => x.reason },
     { Header: "Вероятность (текущая)", accessor: (x) => x.probability_before },
@@ -26,10 +39,12 @@ export const getColumns = (): Column<Risk>[] => {
     {
       Header: "Вероятность после мероприятия",
       accessor: (x) => x.probability_after,
+      width: 200,
     },
     {
-      Header: "Потери времени на восстановление после мероприятия",
+      Header: "Время на восстановление после мероприятия",
       accessor: (x) => x.time_recovery_after,
+      width: 240,
     },
     { Header: "Бизнес-процесс", accessor: (x) => x.business_process },
     { Header: "Владелец риска", accessor: (x) => x.risk_owner },
@@ -37,8 +52,16 @@ export const getColumns = (): Column<Risk>[] => {
 };
 
 export const RiskPage = () => {
-  const columns = React.useMemo(() => getColumns(), []);
+  const [riskDescVisibility, setDescVisibility] = React.useState({
+    visible: false,
+    image: "",
+  });
+  const columns = React.useMemo(
+    () => getColumns((image) => setDescVisibility({ visible: true, image })),
+    []
+  );
   const [open, setOpen] = React.useState(false);
+
   const dataFromStorage = getData<Risk[]>("risk", []);
 
   const [riskState, setRiskState] = React.useState<Risk[]>([
@@ -49,7 +72,7 @@ export const RiskPage = () => {
   const handleSaveRisk = (v: Risk) => {
     const newRisk = {
       ...v,
-      id: String(1 + Number(riskState[riskState.length - 1].id)),
+      id: riskState[riskState.length - 1].id + 1,
     };
 
     const dataFromStorage = getData<Risk[]>("risk", []);
@@ -62,19 +85,31 @@ export const RiskPage = () => {
   };
 
   return (
-    <Container>
-      <Grid container spacing={2} sx={{ mt: "80px" }}>
+    <Layout title="Управление рисками">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <RiskMatrix
+            cellWidth={60}
+            risks={riskState.map((r) => {
+              const { x, y } = calculateCoordsForMatrix(r);
+
+              return {
+                number: y,
+                risk: x,
+                rowIndex: Number(r.id),
+              };
+            })}
+          />
+        </Grid>
+
         <Grid item>
           <Button variant="contained" onClick={() => setOpen(true)}>
             <AddIcon />
             Новый риск
           </Button>
         </Grid>
-
-        <Grid item xs={12} sx={{ overflow: "scroll" }}>
-          <Paper>
-            <Table<Risk> data={riskState} columns={columns} />
-          </Paper>
+        <Grid item xs={12}>
+          <Table<Risk> data={riskState} columns={columns} />
         </Grid>
       </Grid>
 
@@ -83,6 +118,11 @@ export const RiskPage = () => {
         onSave={handleSaveRisk}
         onClose={() => setOpen(false)}
       />
-    </Container>
+      <ImageModal
+        visible={riskDescVisibility.visible}
+        onClose={() => setDescVisibility({ visible: false, image: "" })}
+        image={riskDescVisibility.image}
+      />
+    </Layout>
   );
 };

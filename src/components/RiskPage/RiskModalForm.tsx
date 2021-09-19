@@ -10,7 +10,7 @@ import React from "react";
 import { useFormState } from "../../hooks/useFormState";
 import { FormTextField } from "../FormTextField";
 import { Risk } from "./data";
-import riskSuggest from "./riskSuggest.png";
+import riskSuggest from "./riskSuggest.jpeg";
 
 interface ModalFormProps {
   visible: boolean;
@@ -88,6 +88,11 @@ export const RiskModalForm: React.FC<ModalFormProps> = ({
           label="Потери времени на восстановление после мероприятия"
           value={form.time_recovery_after}
           onChange={setField("time_recovery_after")}
+        />
+        <FormTextField
+          label="Текущая вероятность"
+          value={form.probability_before}
+          onChange={setField("probability_before")}
         />
         <FormTextField
           label="Бизнес-процесс"

@@ -1,4 +1,3 @@
-import * as React from "react";
 import {useRouteMatch} from "react-router-dom";
 import Box from "@mui/material/Box";
 import DrawerMui from "@mui/material/Drawer";
@@ -9,13 +8,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
 import GridViewIcon from "@mui/icons-material/GridView";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import { ListItemButton } from "@mui/material";
+import AlbumIcon from '@mui/icons-material/Album';
 
-const drawerWidth = 300;
+const drawerWidth = 280;
 
-export const Drawer = () => {
+export const Menu = () => {
   const {params: {param}} = useRouteMatch<{param: string}>("/:param") || {params: {}};
   return (
     <DrawerMui
@@ -33,15 +32,15 @@ export const Drawer = () => {
             <ListItemIcon>
               <GridViewIcon />
             </ListItemIcon>
-            <ListItemText primary={"Мониторинг рисков"} />
+            <ListItemText primary={"Управление рисками"} />
           </ListItemButton>
 
-          {/* <ListItemButton component={Link} to="/risktree" selected={param === "risktree"}>
+          <ListItemButton component={Link} to="/monitoring" selected={param === "monitoring"}>
             <ListItemIcon>
-              <AccountTreeIcon />
+              <AlbumIcon />
             </ListItemIcon>
-            <ListItemText primary={"Дерево рисков"} />
-          </ListItemButton> */}
+            <ListItemText primary={"Мониторинг рисков"} />
+          </ListItemButton>
 
           <ListItemButton component={Link} to="/events" selected={param === "events"}>
             <ListItemIcon>

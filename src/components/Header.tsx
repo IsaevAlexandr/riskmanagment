@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBarMui from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -6,7 +5,7 @@ import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Logo } from "./Logo/Logo";
 
-export const AppBar = () => {
+export const Header = () => {
   return (
     <AppBarMui
       position="fixed"

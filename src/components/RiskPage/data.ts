@@ -1,5 +1,10 @@
+import desc1 from "./desc1.png";
+import desc2 from "./desc2.png";
+import desc3 from "./desc3.png";
+import desc4 from "./desc4.png";
+
 export interface Risk {
-  id: string;
+  id: number;
   name: string;
   description: string;
   category: string;
@@ -17,9 +22,9 @@ export interface Risk {
 
 export const data: Risk[] = [
   {
-    id: "1",
+    id: 1,
     name: "Обрыв линии связи",
-    description: "",
+    description: desc1,
     category: "Технологические (оборудование)",
     reason: "Пожар",
     probability_before: 0.1,
@@ -33,9 +38,9 @@ export const data: Risk[] = [
     risk_owner: "Иванов Иван Иванович",
   },
   {
-    id: "2",
+    id: 2,
     name: "Отказ работы сервера",
-    description: "",
+    description: desc2,
     category: "Технологические (оборудование)",
     reason: "Перегрев",
     probability_before: 0.01,
@@ -49,9 +54,9 @@ export const data: Risk[] = [
     risk_owner: "Петров Петр Петрович ",
   },
   {
-    id: "3",
+    id: 3,
     name: "Прекращение подачи электроэнергии",
-    description: "",
+    description: desc3,
     category: "Технологические (оборудование)",
     reason: "Короткое замыкание",
     probability_before: 0.06,
@@ -66,9 +71,9 @@ export const data: Risk[] = [
     risk_owner: "Иванов Иван Иванович",
   },
   {
-    id: "4",
+    id: 4,
     name: "Отказ от предоставления лицензий ввиду санкций",
-    description: "",
+    description: desc4,
     category: "Политические",
     reason: "Введение новых санкций",
     probability_before: 0.04,
